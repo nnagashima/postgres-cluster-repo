@@ -1,0 +1,43 @@
+apiVersion: acid.zalan.do/v1
+kind: postgresql
+metadata:
+  labels:
+    team: acid
+  name: acid-grafana
+  namespace: postgres
+spec:
+  allowedSourceRanges: []
+  databases:
+    grafana: grafana
+  enableMasterLoadBalancer: true
+  enableReplicaLoadBalancer: true
+  numberOfInstances: 2
+  postgresql:
+    version: '15'
+  resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  teamId: acid
+  users:
+    grafana: []
+  volume:
+    iops: 3000
+    size: 40Gi
+    throughput: 125
+  allowedSourceRanges:
+  - 0.0.0.0/0
+  patroni:
+    initdb:
+      encoding: "UTF8"
+      locale: "C"
+      data-checksums: "true"
+    pg_hba:
+    - local   all all trust
+    - hostssl all all 0.0.0.0/0 md5
+    - host    all all 0.0.0.0/0 md5
+    - host    all all ::1/128   md5
+    - host    replication standby 0.0.0.0/0 md5

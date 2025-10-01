@@ -37,6 +37,7 @@ spec:
       data-checksums: "true"
     pg_hba:
     - local   all all trust
+    - local   replication standby trust
     - hostssl all all 0.0.0.0/0 md5
     - host    all all 0.0.0.0/0 md5
     - host    all all ::1/128   md5
